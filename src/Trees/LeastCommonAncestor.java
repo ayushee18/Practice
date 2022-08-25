@@ -1,19 +1,23 @@
 package Trees;
 
 public class LeastCommonAncestor {
-    public static Node findLCA(Node root, int node1, int node2) {
-        if(root == null)
+    public static Node lowestCommonAncestor(Node root, Node p, Node q) {
+        if (root == null) {
             return null;
-        if(root.data == node1 || root.data == node2)
-            return  root;
-        Node left = findLCA(root.left, node1, node2);
-        Node right = findLCA(root.right, node1, node2);
-
-        if(left != null && right != null)
+        }
+        if (root.data == p.data || root.data == q.data) {
             return root;
-        if(left == null && right == null)
-            return null;
-        return left != null ? left : right;
+        }
+        Node left = lowestCommonAncestor(root.left, p, q);
+        Node right = lowestCommonAncestor(root.right, p, q);
+
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
+        }
+        return root;
     }
     public static void main(String args[])
     {
@@ -26,13 +30,13 @@ public class LeastCommonAncestor {
         tree.root.right.left = new Node(6);
         tree.root.right.right = new Node(7);
 
-        Node lca = findLCA(tree.root,4, 5);
+        Node lca = lowestCommonAncestor(tree.root, new Node(4), new Node(5));
         if (lca != null)
             System.out.println("LCA(4, 5) = " + lca.data);
         else
             System.out.println("Keys are not present");
 
-        lca = findLCA(tree.root, 4, 10);
+        lca = lowestCommonAncestor(tree.root, new Node(4), new Node(10));
         if (lca != null)
             System.out.println("LCA(4, 10) = " + lca.data);
         else
